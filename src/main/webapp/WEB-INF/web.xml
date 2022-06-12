@@ -29,4 +29,13 @@
         <servlet-name>AddFilm</servlet-name>
         <url-pattern>/addfilmpage</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ChooseHall</servlet-name>
+        <jsp-file>/jsp/chooseHall.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChooseHall</servlet-name>
+        <url-pattern>/chooseHall</url-pattern>
+    </servlet-mapping>
 </web-app>

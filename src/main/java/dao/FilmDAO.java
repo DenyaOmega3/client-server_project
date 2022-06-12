@@ -62,7 +62,28 @@ public class FilmDAO implements DAO<Film> {
 
     @Override
     public Film getByID(int id) throws SQLException {
-        return null;
+        Connection connection = DatabaseConnection.getConnection();
+
+        String sql = "SELECT film_id, title, description, runtime FROM films WHERE film_id = ?";
+        Film film = new Film();
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                film.setId(resultSet.getInt("film_id"));
+                film.setTitle(resultSet.getString("title"));
+                film.setDescription(resultSet.getString("description"));
+                film.setRuntime(resultSet.getInt("runtime"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connection.close();
+        }
+        return film;
     }
 
     @Override
@@ -72,6 +93,20 @@ public class FilmDAO implements DAO<Film> {
 
     @Override
     public void remove(Film film) throws SQLException {
+    }
 
+    public void removeById(int id) throws SQLException {
+        Connection connection = DatabaseConnection.getConnection();
+        String sql = "DELETE FROM films WHERE film_id = ?";
+
+        try {
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setInt(1, id);
+                preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connection.close();
+        }
     }
 }

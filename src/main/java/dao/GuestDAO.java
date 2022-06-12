@@ -62,7 +62,7 @@ public class GuestDAO implements DAO<Guest> {
     public Guest getByID(int id) throws SQLException {
         Connection connection = DatabaseConnection.getConnection();
 
-        String sql = "SELECT id, first_name, last_name, birth_date, email, password FROM guests WHERE id = ?";
+        String sql = "SELECT guest_id, first_name, last_name, birth_date, email, password FROM guests WHERE guest_id = ?";
         Guest guest = new Guest();
 
         try {
@@ -71,7 +71,7 @@ public class GuestDAO implements DAO<Guest> {
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                guest.setId(resultSet.getInt("id"));
+                guest.setId(resultSet.getInt("guest_id"));
                 guest.setFirstName(resultSet.getString("first_name"));
                 guest.setLastName(resultSet.getString("last_name"));
                 guest.setDateOfBirth(resultSet.getDate("birth_date").toLocalDate());

@@ -30,10 +30,19 @@
     <div id="forAdmin">
         <c:if test="${user.firstName eq 'admin'}">
             <a href="/addfilmpage">Add film</a>
+            <a href="/chooseHall">Add session</a>
         </c:if>
     </div>
 
     <table>
+        <tr>
+            <td>ID</td>
+            <td>Film</td>
+            <td>Description</td>
+            <td>Total hours</td>
+            <td></td>
+            <td></td>
+        </tr>
     <c:forEach var="film" items="${listFilms}">
         <tr>
             <td><c:out value="${film.id}"/></td>
@@ -41,7 +50,8 @@
             <td><c:out value="${film.description}"/></td>
             <td><c:out value="${film.runtime}"/></td>
             <td><a>Edit</a></td>
-            <td><a>Remove</a></td>
+            <td><a href="/chooseHall?film_id=${film.id}">Add session</a></td>
+            <td><a href="/hello?command=removeFilm&film_id=${film.id}">Remove</a></td>
         </tr>
     </c:forEach>
     </table>

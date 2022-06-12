@@ -19,6 +19,9 @@ public class ControllerHelper {
         commands.put("signIn", new SigninCommand());
         commands.put("signOut", new SignoutCommand());
         commands.put("addFilm", new AddFilmCommand());
+        commands.put("removeFilm", new RemoveFilmCommand());
+        commands.put("checkAvailableTimeAtHall", new CheckAvailabeTimeAtHallCommand());
+        commands.put("addSession", new AddSessionCommand());
     }
 
     public ICommand getCommand(HttpServletRequest request) {

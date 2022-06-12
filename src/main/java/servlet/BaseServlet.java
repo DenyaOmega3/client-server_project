@@ -10,10 +10,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -32,20 +29,19 @@ public class BaseServlet extends HttpServlet {
         String page = null;
         try {
             if (request.getParameter("command").equals("init")) {
-                System.out.println("imherer");
                 List<Film> listFilms = listFilms();
                 request.setAttribute("listFilms", listFilms);
                 HttpSession session = request.getSession();
                 session.setAttribute("listFilms", listFilms);
                 session.setMaxInactiveInterval(5*60);
                 response.sendRedirect("/mainpage");
+                session.removeAttribute("possibleHours");
             }
             else {
                 ICommand command = controllerHelper.getCommand(request);
                 page = command.execute(request, response);
                 //RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
 
-                System.out.println(page);
                 response.sendRedirect(page);
                 //dispatcher.forward(request, response);
             }
