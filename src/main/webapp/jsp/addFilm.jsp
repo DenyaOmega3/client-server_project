@@ -20,7 +20,7 @@
         <input type="text" id="description" name="description" required><br>
         <label for="runtime">Runtime (in seconds):</label><br>
         <input type="text" id="runtime" name="runtime" required><br>
-        <input type="submit" name = "s1" value="signIn">
+        <input type="submit" name = "s1" value="Add film">
     </form>
 </body>
 </html>

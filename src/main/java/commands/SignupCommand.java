@@ -13,6 +13,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SignupCommand implements ICommand {
     private static final String FIRST_NAME = "firstName";
@@ -29,20 +33,38 @@ public class SignupCommand implements ICommand {
         String email = request.getParameter(EMAIL);
         String password = request.getParameter(PASSWORD);
 
-        Guest guest = new Guest(firstName,lastName,LocalDate.parse(birthDate),email,password);
+        if (!isMailValid(email)) {
+            return "/signup?not_valid=true";
+        }
 
+        //check if mail is valid
+        Guest newGuest = new Guest(firstName,lastName,LocalDate.parse(birthDate),email,password);
         GuestDAO guestDAO = new GuestDAO();
+
         try {
-            guestDAO.add(guest);
+            Guest checkIfExists = guestDAO.getByEMail(email);
+            if (checkIfExists != null) {
+                return "/signup?account_exists=true";
+            }
+            guestDAO.add(newGuest);
+            HttpSession session = request.getSession();
+            session.setAttribute("user", newGuest);
+            session.setMaxInactiveInterval(5*60*60); //one hour
+
+            System.out.println(isMailValid(email));
+
+            return "/mainpage";
         }
         catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
+    }
 
-        HttpSession session = request.getSession();
-        session.setAttribute("user", guest);
-        session.setMaxInactiveInterval(5*60);
-
-        return "/mainpage";
+    private static boolean isMailValid(String input) {
+        String emailReget = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
+        Pattern emailPat = Pattern.compile(emailReget,Pattern.CASE_INSENSITIVE);
+        Matcher matcher = emailPat.matcher(input);
+        return matcher.find();
     }
 }

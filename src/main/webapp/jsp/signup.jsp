@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: denyaalpha
@@ -20,10 +21,19 @@
         <label for="birth_date">Date of birth:</label><br>
         <input type="date" id="birth_date" name="birthDate" required><br>
         <label for="email">Email:</label><br>
-        <input type="text" id="email" name="email" required><br>
+        <input type="text" id="email" name="email" required>
+        <c:choose>
+            <c:when test="${param.not_valid == true}">
+                <p>Invalid input</p>
+            </c:when>
+            <c:when test="${param.account_exists == true}">
+                <p>Account with corresponding mail exists</p>
+            </c:when>
+        </c:choose>
+        <br>
         <label for="password">Password:</label><br>
         <input type="password" id="password" name="password" required><br>
-        <input type="submit"  value="signUp">
+        <input type="submit"  value="Sign up">
     </form>
 </body>
 </html>

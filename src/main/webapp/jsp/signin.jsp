@@ -19,7 +19,7 @@
     <input type="text" id="email" name="email" required><br>
     <label for="password">Password:</label><br>
     <input type="password" id="password" name="password" required><br>
-    <input type="submit" name = "s1" value="signIn">
+    <input type="submit" name = "s1" value="Sign in">
 
     <c:if test="${param.wrong_password == true}">
         <p>Wrong password!</p>

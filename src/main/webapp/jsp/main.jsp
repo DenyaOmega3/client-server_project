@@ -17,7 +17,7 @@
             <p><a class="registration" href="/signin">Sign in</a></p>
         </c:if>
         <c:if test="${user == null}">
-            <p><a class="registration" href="/jsp/signup.jsp">Sign up</a></p>
+            <p><a class="registration" href="/signup">Sign up</a></p>
         </c:if>
 
         <p><c:out value="${user.firstName}"/></p>
@@ -56,6 +56,8 @@
             </c:if>
         </tr>
     </c:forEach>
+
+
 
         <%-- TODO: see all possible sessions
         format: current date

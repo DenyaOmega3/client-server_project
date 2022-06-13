@@ -10,9 +10,8 @@ public class FilmDAO implements DAO<Film> {
     @Override
     public void add(Film film) throws SQLException {
         String sql = "INSERT INTO films (title, description, runtime) VALUES (?,?,?)";
-        try {
-            Connection connection = DBUtil.getDataSource().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (Connection connection = DBUtil.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
             preparedStatement.setString(1, film.getTitle());
             preparedStatement.setString(2, film.getDescription());
             preparedStatement.setInt(3, film.getRuntime());
@@ -28,9 +27,8 @@ public class FilmDAO implements DAO<Film> {
         List<Film> filmList = new ArrayList<>();
         String sql = "SELECT film_id, title, description, runtime FROM films";
 
-        try {
-            Connection connection = DBUtil.getDataSource().getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql);
+        try (            Connection connection = DBUtil.getDataSource().getConnection();
+                         PreparedStatement statement = connection.prepareStatement(sql);) {
             ResultSet resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()) {
@@ -54,9 +52,9 @@ public class FilmDAO implements DAO<Film> {
         String sql = "SELECT film_id, title, description, runtime FROM films WHERE film_id = ?";
         Film film = new Film();
 
-        try {
-            Connection connection = DBUtil.getDataSource().getConnection();
+        try(Connection connection = DBUtil.getDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                ) {
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -80,9 +78,8 @@ public class FilmDAO implements DAO<Film> {
     public void remove(int id) throws SQLException {
         String sql = "DELETE FROM films WHERE film_id = ?";
 
-        try {
-            Connection connection = DBUtil.getDataSource().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (Connection connection = DBUtil.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

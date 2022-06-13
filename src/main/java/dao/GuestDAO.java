@@ -11,10 +11,8 @@ public class GuestDAO implements DAO<Guest> {
     @Override
     public void add(Guest guest) throws SQLException {
         String sql = "INSERT INTO guests (first_name, last_name, birth_date, email, password) VALUES (?,?,?,?,?)";
-        try {
-            Connection connection = DBUtil.getDataSource().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
+        try (Connection connection = DBUtil.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
             preparedStatement.setString(1, guest.getFirstName());
             preparedStatement.setString(2, guest.getLastName());
             preparedStatement.setDate(3, Date.valueOf(guest.getDateOfBirth()));
@@ -32,9 +30,8 @@ public class GuestDAO implements DAO<Guest> {
         List<Guest> guestList = new ArrayList<>();
         String sql = "SELECT guest_id, first_name, last_name, birth_date, email, password FROM guests";
 
-        try {
-            Connection connection = DBUtil.getDataSource().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (Connection connection = DBUtil.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery(sql);
 
@@ -60,9 +57,8 @@ public class GuestDAO implements DAO<Guest> {
         String sql = "SELECT guest_id, first_name, last_name, birth_date, email, password FROM guests WHERE guest_id = ?";
         Guest guest = new Guest();
 
-        try {
-            Connection connection = DBUtil.getDataSource().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (Connection connection = DBUtil.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -84,10 +80,8 @@ public class GuestDAO implements DAO<Guest> {
     public void update(Guest guest) throws SQLException {
         String sql = "UPDATE guests SET first_name = ?, last_name = ?, birth_date = ?, email = ?, password = ? WHERE guest_id = ?";
 
-        try {
-            Connection connection = DBUtil.getDataSource().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
+        try (Connection connection = DBUtil.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql); ){
             preparedStatement.setString(1, guest.getFirstName());
             preparedStatement.setString(2, guest.getLastName());
             preparedStatement.setDate(3, Date.valueOf(guest.getDateOfBirth()));
@@ -105,10 +99,8 @@ public class GuestDAO implements DAO<Guest> {
     public void remove(int id) throws SQLException {
         String sql = "DELETE FROM guests WHERE guest_id = ?";
 
-        try {
-            Connection connection = DBUtil.getDataSource().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
+        try (Connection connection = DBUtil.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql); ){
             preparedStatement.setInt(1, id);
         }
         catch (SQLException e) {
@@ -121,9 +113,8 @@ public class GuestDAO implements DAO<Guest> {
         //guest_id, first_name, last_name, birth_date, email, password?
         Guest guest = null;
 
-        try {
-            Connection connection = DBUtil.getDataSource().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (Connection connection = DBUtil.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
             preparedStatement.setString(1, email);
 
             ResultSet resultSet = preparedStatement.executeQuery();
