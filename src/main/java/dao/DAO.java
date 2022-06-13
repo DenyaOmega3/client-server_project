@@ -18,5 +18,5 @@ public interface DAO<Entity> {
     void update(Entity user) throws SQLException;
 
     //delete
-    void remove(Entity user) throws SQLException;
+    void remove(int id) throws SQLException;
 }

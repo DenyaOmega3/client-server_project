@@ -24,19 +24,27 @@ public class SigninCommand implements ICommand {
         String password = request.getParameter(PASSWORD);
         PrintWriter pt = response.getWriter();
 
-        GuestModel guestModel = new GuestModel();
-        Guest guest = guestModel.getGuestBy(email, password);
+        //GuestModel guestModel = new GuestModel();
+        GuestDAO guestDAO = new GuestDAO();
 
-        HttpSession session = request.getSession();
-        session.setAttribute("user", guest);
-        session.setMaxInactiveInterval(5*60);
-
-        if (guest != null) {
-            System.out.println("Success");
-            System.out.println(guest);
-            //session.setAttribute("user", guest.getFirstName());
+        //Guest guest = guestModel.getGuestBy(email, password);
+        //TODO: get information by email and password
+        try {
+            Guest guest = guestDAO.getByEMail(email);
+            if (guest == null) {
+                return "/signin?user_not_found=true";
+            }
+            if (!guest.getPassword().equals(password)) {
+                return "/signin?wrong_password=true";
+            }
+            HttpSession session = request.getSession();
+            session.setAttribute("user", guest);
+            session.setMaxInactiveInterval(5*60);
             return "/mainpage";
         }
-        return null;
+        catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

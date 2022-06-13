@@ -1,5 +1,6 @@
 package commands;
 
+import dao.GuestDAO;
 import entity.Guest;
 import model.GuestModel;
 
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import javax.sql.rowset.serial.SerialException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class SignupCommand implements ICommand {
@@ -29,8 +31,13 @@ public class SignupCommand implements ICommand {
 
         Guest guest = new Guest(firstName,lastName,LocalDate.parse(birthDate),email,password);
 
-        GuestModel guestModel = new GuestModel();
-        guestModel.addGuest(guest);
+        GuestDAO guestDAO = new GuestDAO();
+        try {
+            guestDAO.add(guest);
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         HttpSession session = request.getSession();
         session.setAttribute("user", guest);

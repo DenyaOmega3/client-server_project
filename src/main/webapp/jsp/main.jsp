@@ -14,7 +14,7 @@
         <p>Company</p>
 
         <c:if test="${user == null}">
-            <p><a class="registration" href="/jsp/signin.jsp">Sign in</a></p>
+            <p><a class="registration" href="/signin">Sign in</a></p>
         </c:if>
         <c:if test="${user == null}">
             <p><a class="registration" href="/jsp/signup.jsp">Sign up</a></p>

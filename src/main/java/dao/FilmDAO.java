@@ -74,15 +74,10 @@ public class FilmDAO implements DAO<Film> {
 
     @Override
     public void update(Film film) throws SQLException {
-
     }
 
     @Override
-    public void remove(Film film) throws SQLException {
-    }
-
-    public void removeById(int id) throws SQLException {
-
+    public void remove(int id) throws SQLException {
         String sql = "DELETE FROM films WHERE film_id = ?";
 
         try {
