@@ -1,13 +1,9 @@
 package servlet;
 
 import commands.*;
-import entity.Film;
-import model.FilmModel;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
-import java.util.List;
 
 public class ControllerHelper {
     private static final String COMMAND = "command";
@@ -20,7 +16,7 @@ public class ControllerHelper {
         commands.put("signOut", new SignoutCommand());
         commands.put("addFilm", new AddFilmCommand());
         commands.put("removeFilm", new RemoveFilmCommand());
-        commands.put("checkAvailableTimeAtHall", new CheckAvailabeTimeAtHallCommand());
+        commands.put("checkAvailableTimeAtHall", new CheckAvailableTimeAtHallCommand());
         commands.put("addSession", new AddSessionCommand());
     }
 

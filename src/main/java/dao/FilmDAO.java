@@ -1,14 +1,7 @@
 package dao;
 
 import entity.Film;
-import entity.Guest;
-import runner.DatabaseConnection;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import runner.DBUtil;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +9,9 @@ import java.util.List;
 public class FilmDAO implements DAO<Film> {
     @Override
     public void add(Film film) throws SQLException {
-        Connection connection = DatabaseConnection.getConnection();
-
         String sql = "INSERT INTO films (title, description, runtime) VALUES (?,?,?)";
         try {
+            Connection connection = DBUtil.getDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, film.getTitle());
             preparedStatement.setString(2, film.getDescription());
@@ -28,18 +20,16 @@ public class FilmDAO implements DAO<Film> {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            connection.close();
         }
     }
 
     @Override
     public List<Film> getAll() throws SQLException {
-        Connection connection = DatabaseConnection.getConnection();
         List<Film> filmList = new ArrayList<>();
         String sql = "SELECT film_id, title, description, runtime FROM films";
 
         try {
+            Connection connection = DBUtil.getDataSource().getConnection();
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery(sql);
 
@@ -54,20 +44,18 @@ public class FilmDAO implements DAO<Film> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            connection.close();
         }
         return filmList;
     }
 
     @Override
     public Film getByID(int id) throws SQLException {
-        Connection connection = DatabaseConnection.getConnection();
 
         String sql = "SELECT film_id, title, description, runtime FROM films WHERE film_id = ?";
         Film film = new Film();
 
         try {
+            Connection connection = DBUtil.getDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
 
@@ -80,8 +68,6 @@ public class FilmDAO implements DAO<Film> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            connection.close();
         }
         return film;
     }
@@ -96,17 +82,16 @@ public class FilmDAO implements DAO<Film> {
     }
 
     public void removeById(int id) throws SQLException {
-        Connection connection = DatabaseConnection.getConnection();
+
         String sql = "DELETE FROM films WHERE film_id = ?";
 
         try {
-                PreparedStatement preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setInt(1, id);
-                preparedStatement.executeUpdate();
+            Connection connection = DBUtil.getDataSource().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            connection.close();
         }
     }
 }

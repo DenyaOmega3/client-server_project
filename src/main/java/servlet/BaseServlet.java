@@ -33,7 +33,7 @@ public class BaseServlet extends HttpServlet {
                 request.setAttribute("listFilms", listFilms);
                 HttpSession session = request.getSession();
                 session.setAttribute("listFilms", listFilms);
-                session.setMaxInactiveInterval(5*60);
+                session.setMaxInactiveInterval(1*60*60); //one hour
                 response.sendRedirect("/mainpage");
                 session.removeAttribute("possibleHours");
             }

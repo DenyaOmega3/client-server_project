@@ -1,7 +1,7 @@
 package dao;
 
 import entity.Guest;
-import runner.DatabaseConnection;
+import runner.DBUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,11 +10,11 @@ import java.util.List;
 public class GuestDAO implements DAO<Guest> {
     @Override
     public void add(Guest guest) throws SQLException {
-        Connection connection = DatabaseConnection.getConnection();
-
         String sql = "INSERT INTO guests (first_name, last_name, birth_date, email, password) VALUES (?,?,?,?,?)";
         try {
+            Connection connection = DBUtil.getDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
             preparedStatement.setString(1, guest.getFirstName());
             preparedStatement.setString(2, guest.getLastName());
             preparedStatement.setDate(3, Date.valueOf(guest.getDateOfBirth()));
@@ -24,18 +24,17 @@ public class GuestDAO implements DAO<Guest> {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            connection.close();
         }
     }
 
     @Override
     public List<Guest> getAll() throws SQLException {
-        Connection connection = DatabaseConnection.getConnection();
         List<Guest> guestList = new ArrayList<>();
         String sql = "SELECT guest_id, first_name, last_name, birth_date, email, password FROM guests";
 
         try {
+            Connection connection = DBUtil.getDataSource().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery(sql);
 
@@ -52,20 +51,17 @@ public class GuestDAO implements DAO<Guest> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            connection.close();
         }
         return guestList;
     }
 
     @Override
     public Guest getByID(int id) throws SQLException {
-        Connection connection = DatabaseConnection.getConnection();
-
         String sql = "SELECT guest_id, first_name, last_name, birth_date, email, password FROM guests WHERE guest_id = ?";
         Guest guest = new Guest();
 
         try {
+            Connection connection = DBUtil.getDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
 
@@ -80,8 +76,6 @@ public class GuestDAO implements DAO<Guest> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            connection.close();
         }
         return guest;
     }
