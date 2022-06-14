@@ -48,8 +48,7 @@ public class FilmDAO implements DAO<Film> {
 
     @Override
     public Film getByID(int id) throws SQLException {
-
-        String sql = "SELECT film_id, title, description, runtime FROM films WHERE film_id = ?";
+        String sql = "SELECT * FROM films WHERE film_id = ?";
         Film film = new Film();
 
         try(Connection connection = DBUtil.getDataSource().getConnection();
@@ -72,6 +71,19 @@ public class FilmDAO implements DAO<Film> {
 
     @Override
     public void update(Film film) throws SQLException {
+        String sql = "UPDATE films SET title = ?, description = ?, runtime = ? WHERE film_id = ?";
+
+        try (Connection connection = DBUtil.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql); ){
+            preparedStatement.setString(1, film.getTitle());
+            preparedStatement.setString(2, film.getDescription());
+            preparedStatement.setInt(3, film.getRuntime());
+            preparedStatement.setInt(4, film.getId());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

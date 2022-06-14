@@ -7,3 +7,16 @@ header {
     background-color: cadetblue;
     display: flex;
 }
+
+a {
+    margin-right: 20px;
+}
+
+.sessions {
+    display: flex;
+    background-color: cornflowerblue;
+}
+
+.place {
+    width: 30%;
+}

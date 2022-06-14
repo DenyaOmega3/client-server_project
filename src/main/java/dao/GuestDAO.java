@@ -28,7 +28,7 @@ public class GuestDAO implements DAO<Guest> {
     @Override
     public List<Guest> getAll() throws SQLException {
         List<Guest> guestList = new ArrayList<>();
-        String sql = "SELECT guest_id, first_name, last_name, birth_date, email, password FROM guests";
+        String sql = "SELECT * FROM guests";
 
         try (Connection connection = DBUtil.getDataSource().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
@@ -54,7 +54,7 @@ public class GuestDAO implements DAO<Guest> {
 
     @Override
     public Guest getByID(int id) throws SQLException {
-        String sql = "SELECT guest_id, first_name, last_name, birth_date, email, password FROM guests WHERE guest_id = ?";
+        String sql = "SELECT * FROM guests WHERE guest_id = ?";
         Guest guest = new Guest();
 
         try (Connection connection = DBUtil.getDataSource().getConnection();
@@ -133,71 +133,3 @@ public class GuestDAO implements DAO<Guest> {
         return guest;
     }
 }
-
-    /*
-    public Guest getByUsername(String username) throws SQLException {
-        Connection connection = DatabaseConnection.getConnection();
-
-        String sql = "SELECT id, username, email, password FROM user WHERE username = ?";
-        Guest user = new Guest();
-
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,username);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                user.setId(resultSet.getInt("id"));
-                user.setUsername(resultSet.getString("username"));
-                user.setEmail(resultSet.getString("email"));
-                user.setPassword(resultSet.getString("password"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        finally {
-            connection.close();
-        }
-        return user;
-    }
-
-    @Override
-    public void update(Guest user) throws SQLException {
-        Connection connection = DatabaseConnection.getConnection();
-
-        String sql = "UPDATE user SET username = ?, email = ?, password = ? WHERE id = ?";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,user.getUsername());
-            preparedStatement.setString(2,user.getEmail());
-            preparedStatement.setString(3,user.getPassword());
-            preparedStatement.setInt(4,user.getId());
-
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        finally {
-            connection.close();
-        }
-    }
-
-    @Override
-    public void remove(Guest user) throws SQLException {
-        Connection connection = DatabaseConnection.getConnection();
-
-        String sql = "DELETE FROM user WHERE id = ?";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1,user.getId());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        finally {
-            connection.close();
-        }
-    }
-}
-
-*/

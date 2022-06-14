@@ -1,13 +1,11 @@
 package entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.awt.image.BufferedImage;
-import java.io.InputStream;
-import java.time.LocalDate;
-
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 public class Film {
     private int id;

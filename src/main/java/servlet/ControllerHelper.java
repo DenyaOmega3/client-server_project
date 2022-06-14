@@ -18,6 +18,8 @@ public class ControllerHelper {
         commands.put("removeFilm", new RemoveFilmCommand());
         commands.put("checkAvailableTimeAtHall", new CheckAvailableTimeAtHallCommand());
         commands.put("addSession", new AddSessionCommand());
+        commands.put("displaySession", new DisplaySessionsCommand());
+        commands.put("updateFilm", new UpdateFilmCommand());
     }
 
     public ICommand getCommand(HttpServletRequest request) {
