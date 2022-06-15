@@ -58,6 +58,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>ChooseSeat</servlet-name>
+        <jsp-file>/jsp/chooseSeat.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChooseSeat</servlet-name>
+        <url-pattern>/chooseSeat</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>ChooseHall</servlet-name>
         <jsp-file>/jsp/chooseHall.jsp</jsp-file>
     </servlet>

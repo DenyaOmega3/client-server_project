@@ -20,6 +20,8 @@ public class ControllerHelper {
         commands.put("addSession", new AddSessionCommand());
         commands.put("displaySession", new DisplaySessionsCommand());
         commands.put("updateFilm", new UpdateFilmCommand());
+        commands.put("getHallInformation", new GetHallInformationCommand());
+        commands.put("buyTicket", new BuyTicketCommand());
     }
 
     public ICommand getCommand(HttpServletRequest request) {
